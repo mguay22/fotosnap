@@ -1,3 +1,7 @@
+"use client";
+
+import LoginForm from "@/components/auth/login-form";
+
 export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-background py-12 px-4 sm:px-6 lg:px-8">
@@ -16,6 +20,7 @@ export default function LoginPage() {
             </a>
           </p>
         </div>
+        <LoginForm onSubmit={async (data) => console.log(data)} />
       </div>
     </div>
   );
