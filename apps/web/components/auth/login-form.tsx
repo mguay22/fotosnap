@@ -10,7 +10,7 @@ import {
 import { LoginFormData, loginSchema } from "@/lib/auth/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, UseFormSetError } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -18,12 +18,16 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormRootError,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 interface LoginFormsProps {
-  onSubmit: (data: LoginFormData) => Promise<void>;
+  onSubmit: (
+    data: LoginFormData,
+    setError: UseFormSetError<LoginFormData>
+  ) => Promise<void>;
 }
 
 export default function LoginForm({ onSubmit }: LoginFormsProps) {
@@ -41,7 +45,7 @@ export default function LoginForm({ onSubmit }: LoginFormsProps) {
     setIsSubmitting(true);
 
     try {
-      await onSubmit(data);
+      await onSubmit(data, form.setError);
     } catch (error) {
       console.error("Login error:", error);
     } finally {
@@ -63,6 +67,7 @@ export default function LoginForm({ onSubmit }: LoginFormsProps) {
             onSubmit={form.handleSubmit(handleSubmit)}
             className="space-y-4"
           >
+            <FormRootError />
             <FormField
               control={form.control}
               name="email"
