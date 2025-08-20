@@ -1,4 +1,5 @@
 import Feed from "@/components/dashboard/feed";
+import Sidebar from "@/components/dashboard/sidebar";
 import { Stories } from "@/components/dashboard/stories";
 
 export default function Home() {
@@ -11,7 +12,7 @@ export default function Home() {
             <Feed />
           </div>
           <div className="lg:sticky lg:top-8 lg:h-fit">
-            <></>
+            <Sidebar />
           </div>
         </div>
       </div>
