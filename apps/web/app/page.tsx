@@ -1,8 +1,18 @@
+"use client";
+
 import Feed from "@/components/dashboard/feed";
+import PhotoUpload from "@/components/dashboard/photo-upload";
 import Sidebar from "@/components/dashboard/sidebar";
 import { Stories } from "@/components/dashboard/stories";
+import { Fab } from "@/components/ui/fab";
+import { Plus } from "lucide-react";
+import { useState } from "react";
 
 export default function Home() {
+  const [showUploadModal, setShowUploadModal] = useState(false);
+
+  const handleCreatePost = async (file: File, caption: string) => {};
+
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-6xl mx-auto px-4 py-8">
@@ -16,6 +26,15 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      <PhotoUpload
+        open={showUploadModal}
+        onOpenChange={setShowUploadModal}
+        onSubmit={handleCreatePost}
+      />
+      <Fab onClick={() => setShowUploadModal(true)}>
+        <Plus className="h-6 w-6" />
+      </Fab>
     </div>
   );
 }
