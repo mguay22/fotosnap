@@ -11,6 +11,7 @@ import { AppController } from './app.controller';
 import { PostsModule } from './posts/posts.module';
 import { TRPCModule } from 'nestjs-trpc';
 import { UsersModule } from './auth/users/users.module';
+import { UploadModule } from './upload/upload.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { UsersModule } from './auth/users/users.module';
     }),
     PostsModule,
     UsersModule,
+    UploadModule,
   ],
   controllers: [AppController],
   providers: [
