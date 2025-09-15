@@ -7,6 +7,7 @@ const publicProcedure = t.procedure;
 const appRouter = t.router({
   postsRouter: t.router({
     create: publicProcedure.input(z.object({
+      image: z.string().min(1, 'Image is required'),
       caption: z.string().min(1, 'Caption is required'),
     })).output(z.object({
       id: z.number(),

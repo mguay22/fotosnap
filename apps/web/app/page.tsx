@@ -5,11 +5,14 @@ import PhotoUpload from "@/components/dashboard/photo-upload";
 import Sidebar from "@/components/dashboard/sidebar";
 import { Stories } from "@/components/dashboard/stories";
 import { Fab } from "@/components/ui/fab";
+import { trpc } from "@/lib/trpc/client";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 
 export default function Home() {
   const [showUploadModal, setShowUploadModal] = useState(false);
+  const posts = trpc.postsRouter.findAll.useQuery();
+  const createPost = trpc.postsRouter.create.useMutation({});
 
   const handleCreatePost = async (file: File, caption: string) => {
     console.log("Create post", file);
@@ -26,7 +29,10 @@ export default function Home() {
     }
 
     const { filename } = await uploadResponse.json();
-    console.log(filename);
+    await createPost.mutateAsync({
+      image: filename,
+      caption,
+    });
   };
 
   return (
@@ -35,7 +41,7 @@ export default function Home() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-6">
             <Stories />
-            <Feed />
+            <Feed posts={posts.data || []} />
           </div>
           <div className="lg:sticky lg:top-8 lg:h-fit">
             <Sidebar />
