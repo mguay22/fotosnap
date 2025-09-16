@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Heart, MessageCircle } from "lucide-react";
+import { Heart, MessageCircle, User } from "lucide-react";
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
 
@@ -23,19 +23,37 @@ interface FeedProps {
 }
 
 export default function Feed({ posts }: FeedProps) {
+  const getImageUrl = (imagePath: string) => {
+    return `${process.env.NEXT_PUBLIC_API_URL}/uploads/images/${imagePath}`;
+  };
+
+  const getAvatarUrl = (avatarPath: string) => {
+    if (!avatarPath) {
+      return "";
+    }
+    return `${process.env.NEXT_PUBLIC_API_URL}/uploads/images/${avatarPath}`;
+  };
+
   return (
     <div className="space-y-6">
       {posts.map((post) => (
         <Card key={post.id} className="overflow-hidden">
           <div className="flex items-center justify-between p-4">
             <div className="flex items-center space-x-3">
-              <Image
-                src={post.user.avatar}
-                alt={post.user.username}
-                width={64}
-                height={64}
-                className="w-8 h-8 rounded-full"
-              />
+              {getAvatarUrl(post.user.avatar) ? (
+                <Image
+                  src={getAvatarUrl(post.user.avatar)}
+                  alt={post.user.username}
+                  width={64}
+                  height={64}
+                  className="w-8 h-8 rounded-full"
+                />
+              ) : (
+                <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
+                  <User className="w-4 h-4 text-muted-foreground" />
+                </div>
+              )}
+
               <span className="font-semibold text-sm">
                 {post.user.username}
               </span>
@@ -44,11 +62,10 @@ export default function Feed({ posts }: FeedProps) {
 
           <div className="aspect-square relative">
             <Image
-              src={post.image}
+              src={getImageUrl(post.image)}
               alt="Post"
-              className="w-full h-full object-cover"
-              width={600}
-              height={600}
+              className="object-cover"
+              fill
             />
           </div>
 

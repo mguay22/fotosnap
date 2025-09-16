@@ -12,7 +12,12 @@ import { useState } from "react";
 export default function Home() {
   const [showUploadModal, setShowUploadModal] = useState(false);
   const posts = trpc.postsRouter.findAll.useQuery();
-  const createPost = trpc.postsRouter.create.useMutation({});
+  const createPost = trpc.postsRouter.create.useMutation({
+    onSuccess: () => {
+      utils.postsRouter.findAll.invalidate();
+    },
+  });
+  const utils = trpc.useUtils();
 
   const handleCreatePost = async (file: File, caption: string) => {
     console.log("Create post", file);
