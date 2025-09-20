@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { getImageUrl } from "@/lib/image";
 import { useState } from "react";
 import AvatarUpload from "./avatar-upload";
+import { trpc } from "@/lib/trpc/client";
 
 interface SuggestedUser {
   id: string;
@@ -59,6 +60,7 @@ const mockSuggestions: SuggestedUser[] = [
 export default function Sidebar() {
   const { data: session } = authClient.useSession();
   const [showAvatarModal, setShowAvatarModal] = useState(false);
+  const utils = trpc.useUtils();
   const router = useRouter();
 
   const handleLogout = async () => {
@@ -66,7 +68,23 @@ export default function Sidebar() {
     router.push("/login");
   };
 
-  const handleAvatarUpload = async (file: File) => {};
+  const handleAvatarUpload = async (file: File) => {
+    const formData = new FormData();
+    formData.append("image", file);
+
+    const uploadResponse = await fetch("/api/upload/image", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!uploadResponse.ok) {
+      throw new Error("Failed to upload avatar");
+    }
+
+    const { filename } = await uploadResponse.json();
+    await authClient.updateUser({ image: filename });
+    await utils.postsRouter.findAll.refetch();
+  };
 
   return (
     <div className="space-y-6">
