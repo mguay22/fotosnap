@@ -10,7 +10,6 @@ export const post = pgTable('post', {
   id: serial('id').primaryKey(),
   image: text('image').notNull(),
   caption: text('caption').notNull(),
-  likes: integer('likes').notNull(),
   createdAt: timestamp('createdAt').notNull(),
   userId: text('user_id')
     .notNull()
