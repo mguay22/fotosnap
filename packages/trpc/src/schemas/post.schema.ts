@@ -1,8 +1,8 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export const createPostSchema = z.object({
-  image: z.string().min(1, 'Image is required'),
-  caption: z.string().min(1, 'Caption is required'),
+  image: z.string().min(1, "Image is required"),
+  caption: z.string().min(1, "Caption is required"),
 });
 
 export const postSchema = z.object({

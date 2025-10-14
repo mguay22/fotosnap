@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { CreatePostInput, Post } from './schemas/trpc.schema';
+import { CreatePostInput, Post } from '@repo/trpc/schemas';
 import { DATABASE_CONNECTION } from 'src/database/database-connection';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 import { schema } from '../database/database.module';

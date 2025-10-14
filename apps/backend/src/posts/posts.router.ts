@@ -12,7 +12,7 @@ import {
   LikePostInput,
   likePostSchema,
   postSchema,
-} from './schemas/trpc.schema';
+} from '@repo/trpc/schemas';
 import { PostsService } from './posts.service';
 import z from 'zod';
 import { AuthTrpcMiddleware } from '../auth/auth-trpc.middleware';
