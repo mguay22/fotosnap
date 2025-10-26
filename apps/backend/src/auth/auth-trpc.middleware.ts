@@ -4,7 +4,7 @@ import {
   MiddlewareOptions,
   MiddlewareResponse,
   TRPCMiddleware,
-} from 'nestjs-trpc';
+} from '@mguay/nestjs-trpc';
 
 @Injectable()
 export class AuthTrpcMiddleware implements TRPCMiddleware {

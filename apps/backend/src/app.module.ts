@@ -9,7 +9,7 @@ import { DATABASE_CONNECTION } from './database/database-connection';
 import { APP_GUARD } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { PostsModule } from './posts/posts.module';
-import { TRPCModule } from 'nestjs-trpc';
+import { TRPCModule } from '@mguay/nestjs-trpc';
 import { UsersModule } from './auth/users/users.module';
 import { UploadModule } from './upload/upload.module';
 import { AppContext } from './app.context';

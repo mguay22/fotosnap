@@ -1,5 +1,6 @@
 import { initTRPC } from "@trpc/server";
 import { z } from "zod";
+import { createPostSchema, postSchema, likePostSchema } from "@repo/trpc/schemas";
 
 const t = initTRPC.create();
 const publicProcedure = t.procedure;

@@ -5,7 +5,7 @@ import {
   Query,
   Router,
   UseMiddlewares,
-} from 'nestjs-trpc';
+} from '@mguay/nestjs-trpc';
 import {
   CreatePostInput,
   createPostSchema,
