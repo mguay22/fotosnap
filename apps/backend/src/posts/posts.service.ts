@@ -29,6 +29,7 @@ export class PostsService {
       with: {
         user: true,
         likes: true,
+        comments: true,
       },
       orderBy: [desc(post.createdAt)],
     });
@@ -42,7 +43,7 @@ export class PostsService {
       likes: savedPost.likes.length,
       caption: savedPost.caption,
       timestamp: savedPost.createdAt.toISOString(),
-      comments: 0,
+      comments: savedPost.comments.length,
       isLiked: savedPost.likes.some((like) => like.userId === userId),
     }));
   }

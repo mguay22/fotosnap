@@ -37,6 +37,32 @@ export default function Home() {
     },
   });
 
+  const createComment = trpc.commentsRouter.create.useMutation({
+    onSuccess: (_, variables) => {
+      utils.commentsRouter.findByPostId.invalidate({
+        postId: variables.postId,
+      });
+
+      utils.postsRouter.findAll.setData(undefined, (old) => {
+        if (!old) return old;
+
+        return old.map((post) => {
+          if (post.id === variables.postId) {
+            return { ...post, comments: post.comments + 1 };
+          }
+          return post;
+        });
+      });
+    },
+  });
+
+  const deleteComment = trpc.commentsRouter.delete.useMutation({
+    onSuccess: () => {
+      utils.commentsRouter.findByPostId.invalidate();
+      utils.postsRouter.findAll.invalidate();
+    },
+  });
+
   const handleCreatePost = async (file: File, caption: string) => {
     const formData = new FormData();
     formData.append("image", file);
@@ -64,6 +90,12 @@ export default function Home() {
           <div className="lg:col-span-2 space-y-6">
             <Stories />
             <Feed
+              onAddComment={(postId, text) => {
+                createComment.mutate({ postId, text });
+              }}
+              onDeleteComment={(commentId) => {
+                deleteComment.mutate({ commentId });
+              }}
               posts={posts.data || []}
               onLikePost={(postId) => likePost.mutate({ postId })}
             />
