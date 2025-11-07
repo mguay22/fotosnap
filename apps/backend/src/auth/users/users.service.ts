@@ -4,14 +4,12 @@ import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 import { schema } from '../../database/database.module';
 import { eq } from 'drizzle-orm';
 import { user } from '../schema';
-import { Auth } from 'better-auth';
 
 @Injectable()
 export class UsersService {
   constructor(
     @Inject(DATABASE_CONNECTION)
     private readonly database: NodePgDatabase<typeof schema>,
-    private readonly auth: Auth,
   ) {}
 
   async findById(userId: string) {
