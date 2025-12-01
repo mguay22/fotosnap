@@ -23,7 +23,7 @@ import { AppContext } from '../app-context.interface';
 export class PostsRouter {
   constructor(private readonly postsService: PostsService) {}
 
-  @Mutation({ input: createPostSchema, output: postSchema })
+  @Mutation({ input: createPostSchema })
   async create(
     @Input() createPostInput: CreatePostInput,
     @Ctx() context: AppContext,

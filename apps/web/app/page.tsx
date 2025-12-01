@@ -12,6 +12,7 @@ import { useState } from "react";
 export default function Home() {
   const [showUploadModal, setShowUploadModal] = useState(false);
   const posts = trpc.postsRouter.findAll.useQuery();
+  const stories = trpc.storiesRouter.getStories.useQuery();
   const utils = trpc.useUtils();
   const createPost = trpc.postsRouter.create.useMutation({
     onSuccess: () => {
@@ -63,6 +64,31 @@ export default function Home() {
     },
   });
 
+  const createStory = trpc.storiesRouter.create.useMutation({
+    onSuccess: () => {
+      utils.storiesRouter.getStories.invalidate();
+    },
+  });
+
+  const handleStoryUpload = async (file: File) => {
+    const formData = new FormData();
+    formData.append("image", file);
+
+    const uploadResponse = await fetch("/api/upload/image", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!uploadResponse.ok) {
+      throw new Error("Failed to upload image");
+    }
+
+    const { filename } = await uploadResponse.json();
+    await createStory.mutateAsync({
+      image: filename,
+    });
+  };
+
   const handleCreatePost = async (file: File, caption: string) => {
     const formData = new FormData();
     formData.append("image", file);
@@ -88,7 +114,10 @@ export default function Home() {
       <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-6">
-            <Stories />
+            <Stories
+              storyGroups={stories.data || []}
+              onStoryUpload={handleStoryUpload}
+            />
             <Feed
               onAddComment={(postId, text) => {
                 createComment.mutate({ postId, text });
