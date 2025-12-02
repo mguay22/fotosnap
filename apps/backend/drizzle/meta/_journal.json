@@ -50,6 +50,13 @@
       "when": 1762349774611,
       "tag": "0006_chilly_switch",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1764640396231,
+      "tag": "0007_tiny_zaladane",
+      "breakpoints": true
     }
   ]
 }
