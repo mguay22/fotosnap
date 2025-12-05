@@ -30,3 +30,7 @@ export const userProfileSchema = z.object({
   postCount: z.number(),
   isFollowing: z.boolean(),
 });
+
+export type UserIdInput = z.infer<typeof userIdSchema>;
+export type UpdateProfileInput = z.infer<typeof updateProfileSchema>;
+export type UserProfile = z.infer<typeof userProfileSchema>;
