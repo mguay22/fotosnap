@@ -11,7 +11,6 @@ import {
   updateProfileSchema,
   UserIdInput,
   userIdSchema,
-  UserProfileInput,
   userProfileSchema,
   userSchema,
 } from '@repo/trpc/schemas';
