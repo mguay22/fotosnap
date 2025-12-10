@@ -11,7 +11,6 @@ export const user = pgTable('user', {
     .$defaultFn(() => false)
     .notNull(),
   image: text('image'),
-  displayName: text('display_name'),
   bio: text('bio'),
   website: text('website'),
   createdAt: timestamp('created_at')

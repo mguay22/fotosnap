@@ -57,6 +57,13 @@
       "when": 1764640396231,
       "tag": "0007_tiny_zaladane",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1765330352859,
+      "tag": "0008_curvy_tempest",
+      "breakpoints": true
     }
   ]
 }

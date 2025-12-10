@@ -5,7 +5,7 @@ import { schema } from '../../database/database.module';
 import { and, eq, ne, notInArray, sql } from 'drizzle-orm';
 import { follow, user } from '../schema';
 import { post } from '../../posts/schemas/schema';
-import { UpdateProfileInput } from '@repo/trpc/schemas';
+import { UpdateProfileInput, UserProfile } from '@repo/trpc/schemas';
 
 @Injectable()
 export class UsersService {
@@ -77,7 +77,7 @@ export class UsersService {
         follower: {
           columns: {
             id: true,
-            displayName: true,
+            name: true,
           },
         },
       },
@@ -91,7 +91,7 @@ export class UsersService {
         following: {
           columns: {
             id: true,
-            displayName: true,
+            name: true,
           },
         },
       },
@@ -113,18 +113,20 @@ export class UsersService {
       ),
       columns: {
         id: true,
-        displayName: true,
+        name: true,
       },
       limit: 5,
     });
   }
 
-  async getUserProfile(userId: string, currentUserId: string) {
+  async getUserProfile(
+    userId: string,
+    currentUserId: string,
+  ): Promise<UserProfile> {
     const result = await this.database
       .select({
         id: user.id,
         name: user.name,
-        displayName: user.displayName,
         image: user.image,
         bio: user.bio,
         website: user.website,
