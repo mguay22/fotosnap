@@ -5,6 +5,10 @@ export const createPostSchema = z.object({
   caption: z.string().min(1, "Caption is required"),
 });
 
+export const findAllPostsSchema = z.object({
+  userId: z.string().optional(),
+});
+
 export const postSchema = z.object({
   id: z.number(),
   user: z.object({
@@ -26,3 +30,4 @@ export const likePostSchema = z.object({
 export type Post = z.infer<typeof postSchema>;
 export type CreatePostInput = z.infer<typeof createPostSchema>;
 export type LikePostInput = z.infer<typeof likePostSchema>;
+export type FindAllPostsInput = z.infer<typeof findAllPostsSchema>;

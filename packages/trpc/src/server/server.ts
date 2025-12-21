@@ -1,6 +1,6 @@
 import { initTRPC } from "@trpc/server";
 import { z } from "zod";
-import { createPostSchema, postSchema, likePostSchema, userIdSchema, userSchema, updateProfileSchema, userProfileSchema, createCommentSchema, getCommentsSchema, commentSchema, deleteCommentSchema, createStorySchema, storyGroupSchema } from "@repo/trpc/schemas";
+import { createPostSchema, findAllPostsSchema, postSchema, likePostSchema, userIdSchema, userSchema, updateProfileSchema, userProfileSchema, createCommentSchema, getCommentsSchema, commentSchema, deleteCommentSchema, createStorySchema, storyGroupSchema } from "@repo/trpc/schemas";
 
 const t = initTRPC.create();
 const publicProcedure = t.procedure;
@@ -8,7 +8,7 @@ const publicProcedure = t.procedure;
 const appRouter = t.router({
   postsRouter: t.router({
     create: publicProcedure.input(createPostSchema).mutation(async () => "PLACEHOLDER_DO_NOT_REMOVE" as any),
-    findAll: publicProcedure.output(z.array(postSchema)).query(async () => "PLACEHOLDER_DO_NOT_REMOVE" as any),
+    findAll: publicProcedure.input(findAllPostsSchema).output(z.array(postSchema)).query(async () => "PLACEHOLDER_DO_NOT_REMOVE" as any),
     likePost: publicProcedure.input(likePostSchema).mutation(async () => "PLACEHOLDER_DO_NOT_REMOVE" as any)
   }),
   usersRouter: t.router({
