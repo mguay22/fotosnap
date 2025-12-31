@@ -5,6 +5,7 @@ import Image from "next/image";
 import { getImageUrl } from "@/lib/image";
 import { ChevronLeft, ChevronRight, User, X } from "lucide-react";
 import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
 interface StoryViewerProps {
   storyGroups: StoryGroup[];
@@ -80,7 +81,7 @@ export function StoryViewer({
     return null;
   }
 
-  console.log(currentStoryIndex, progress);
+  const router = useRouter();
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
@@ -111,7 +112,10 @@ export function StoryViewer({
           </div>
 
           <div className="absolute top-4 left-0 right-0 z-20 flex items-center justify-between px-4 pt-2">
-            <button className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
+            <button
+              className="flex items-center space-x-3 hover:opacity-80 transition-opacity"
+              onClick={() => router.push(`/users/${currentGroup.userId}`)}
+            >
               {currentGroup.avatar ? (
                 <Image
                   src={getImageUrl(currentGroup.avatar)}

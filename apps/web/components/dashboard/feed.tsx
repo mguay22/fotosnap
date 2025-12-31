@@ -8,6 +8,7 @@ import { Button } from "../ui/button";
 import { getImageUrl } from "@/lib/image";
 import { useState } from "react";
 import PostComments from "./post-comments";
+import { useRouter } from "next/navigation";
 
 interface FeedProps {
   posts: Post[];
@@ -26,6 +27,7 @@ export default function Feed({
     new Set()
   );
 
+  const router = useRouter();
   const toggleComments = (postId: number) => {
     setExpandedComments((prev) => {
       const newSet = new Set(prev);
@@ -44,19 +46,25 @@ export default function Feed({
         <Card key={post.id} className="overflow-hidden">
           <div className="flex items-center justify-between p-4">
             <div className="flex items-center space-x-3">
-              {getImageUrl(post.user.avatar) ? (
-                <Image
-                  src={getImageUrl(post.user.avatar)}
-                  alt={post.user.username}
-                  width={64}
-                  height={64}
-                  className="w-8 h-8 rounded-full"
-                />
-              ) : (
-                <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
-                  <User className="w-4 h-4 text-muted-foreground" />
-                </div>
-              )}
+              <Button
+                variant="ghost"
+                className="p-0"
+                onClick={() => router.push(`/users/${post.user.id}`)}
+              >
+                {getImageUrl(post.user.avatar) ? (
+                  <Image
+                    src={getImageUrl(post.user.avatar)}
+                    alt={post.user.username}
+                    width={64}
+                    height={64}
+                    className="w-8 h-8 rounded-full"
+                  />
+                ) : (
+                  <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
+                    <User className="w-4 h-4 text-muted-foreground" />
+                  </div>
+                )}
+              </Button>
 
               <span className="font-semibold text-sm">
                 {post.user.username}
