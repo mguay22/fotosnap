@@ -116,17 +116,20 @@ export default function Sidebar() {
           </div>
 
           <div className="flex-1 min-w-0">
-            <button
-              className="text-left w-full hover:opacity-80 transition-opacity"
+            <Button
+              variant="ghost"
+              className="text-left w-full h-auto p-0 hover:bg-transparent hover:opacity-80 transition-opacity"
               onClick={() => router.push(`/users/${session?.user.id}`)}
             >
-              <div className="font-semibold truncate">
-                {session?.user.email}
+              <div className="flex-1 min-w-0">
+                <div className="font-semibold truncate">
+                  {session?.user.email}
+                </div>
+                <div className="text-sm text-muted-foreground truncate">
+                  {session?.user.name}
+                </div>
               </div>
-              <div className="text-sm text-muted-foreground truncate">
-                {session?.user.name}
-              </div>
-            </button>
+            </Button>
           </div>
           <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
             <ThemeToggle />

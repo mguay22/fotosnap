@@ -112,8 +112,9 @@ export function StoryViewer({
           </div>
 
           <div className="absolute top-4 left-0 right-0 z-20 flex items-center justify-between px-4 pt-2">
-            <button
-              className="flex items-center space-x-3 hover:opacity-80 transition-opacity"
+            <Button
+              variant="ghost"
+              className="flex items-center space-x-3 h-auto p-0 hover:bg-transparent hover:opacity-80 transition-opacity"
               onClick={() => router.push(`/users/${currentGroup.userId}`)}
             >
               {currentGroup.avatar ? (
@@ -134,7 +135,7 @@ export function StoryViewer({
                   {currentGroup.username}
                 </div>
               </div>
-            </button>
+            </Button>
 
             <div className="flex items-center gap-2">
               <Button

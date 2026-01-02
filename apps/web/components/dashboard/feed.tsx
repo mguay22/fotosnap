@@ -64,11 +64,11 @@ export default function Feed({
                     <User className="w-4 h-4 text-muted-foreground" />
                   </div>
                 )}
-              </Button>
 
-              <span className="font-semibold text-sm">
-                {post.user.username}
-              </span>
+                <span className="font-semibold text-sm">
+                  {post.user.username}
+                </span>
+              </Button>
             </div>
           </div>
 
@@ -110,14 +110,24 @@ export default function Feed({
             <div className="text-sm font-semibold">{post.likes} likes</div>
 
             <div className="text-sm">
-              <span className="font-semibold">{post.user.username} </span>
+              <Button
+                variant="ghost"
+                className="p-0 h-auto font-semibold hover:bg-transparent hover:opacity-80"
+                onClick={() => router.push(`/users/${post.user.id}`)}
+              >
+                {post.user.username}
+              </Button>{" "}
               {post.caption}
             </div>
 
             {post.comments > 0 && (
-              <div className="text-sm text-muted-foreground">
+              <Button
+                variant="ghost"
+                className="p-0 h-auto text-sm text-muted-foreground hover:bg-transparent hover:opacity-80"
+                onClick={() => toggleComments(post.id)}
+              >
                 View all {post.comments} comments
-              </div>
+              </Button>
             )}
 
             <div className="text-xs text-muted-foreground uppercase">

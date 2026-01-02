@@ -59,7 +59,7 @@ export default function Comments({
                   <Button
                     variant="ghost"
                     onClick={() => router.push(`/users/${comment.user.id}`)}
-                    className="font-semibold text-sm p-0"
+                    className="font-semibold text-sm p-0 mt-1"
                   >
                     {comment.user.username}
                   </Button>
