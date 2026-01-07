@@ -179,7 +179,7 @@ importers:
         version: 11.5.1(@tanstack/react-query@5.87.4(react@19.1.1))(@trpc/client@11.5.1(@trpc/server@11.5.0(typescript@5.9.2))(typescript@5.9.2))(@trpc/server@11.5.0(typescript@5.9.2))(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.2)
       better-auth:
         specifier: ^1.3.5
-        version: 1.3.5(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(zod@4.0.15)
+        version: 1.3.5(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(zod@4.1.3)
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -208,8 +208,8 @@ importers:
         specifier: ^3.3.1
         version: 3.3.1
       zod:
-        specifier: ^4.0.15
-        version: 4.0.15
+        specifier: ^4.1.3
+        version: 4.1.3
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*
@@ -5269,9 +5269,6 @@ packages:
     resolution: {integrity: sha512-cYVsTjKl8b+FrnidjibDWskAv7UKOfcwaVZdp/it9n1s9fU3IkgDbhdIRKCW4JDsAlECJY0ytoVPT3sK6kideA==}
     engines: {node: '>=18'}
 
-  zod@4.0.15:
-    resolution: {integrity: sha512-2IVHb9h4Mt6+UXkyMs0XbfICUh1eUrlJJAOupBHUhLRnKkruawyDddYRCs0Eizt900ntIMk9/4RksYl+FgSpcQ==}
-
   zod@4.1.3:
     resolution: {integrity: sha512-1neef4bMce1hNTrxvHVKxWjKfGDn0oAli3Wy1Uwb7TRO1+wEwoZUZNP1NXIEESybOBiFnBOhI6a4m6tCLE8dog==}
 
@@ -7614,24 +7611,6 @@ snapshots:
   balanced-match@1.0.2: {}
 
   base64-js@1.5.1: {}
-
-  better-auth@1.3.5(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(zod@4.0.15):
-    dependencies:
-      '@better-auth/utils': 0.2.6
-      '@better-fetch/fetch': 1.1.18
-      '@noble/ciphers': 0.6.0
-      '@noble/hashes': 1.8.0
-      '@simplewebauthn/browser': 13.1.2
-      '@simplewebauthn/server': 13.1.2
-      better-call: 1.0.13
-      defu: 6.1.4
-      jose: 5.10.0
-      kysely: 0.28.5
-      nanostores: 0.11.4
-      zod: 4.0.15
-    optionalDependencies:
-      react: 19.1.1
-      react-dom: 19.1.1(react@19.1.1)
 
   better-auth@1.3.5(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(zod@4.1.3):
     dependencies:
@@ -10773,7 +10752,5 @@ snapshots:
   yocto-queue@0.1.0: {}
 
   yoctocolors-cjs@2.1.2: {}
-
-  zod@4.0.15: {}
 
   zod@4.1.3: {}

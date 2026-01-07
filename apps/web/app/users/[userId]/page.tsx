@@ -1,11 +1,12 @@
 "use client";
 
+import { EditProfileModal } from "@/components/dashboard/edit-profile-modal";
 import { PostModal } from "@/components/users/post-modal";
 import ProfileHeader from "@/components/users/profile-header";
 import { ProfileNavigation } from "@/components/users/profile-navigation";
 import { ProfileTabs } from "@/components/users/profile-tabs";
 import { trpc } from "@/lib/trpc/client";
-import { Post } from "@repo/trpc/schemas";
+import { Post, UpdateProfileInput } from "@repo/trpc/schemas";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 
@@ -44,6 +45,12 @@ export default function ProfilePage() {
     },
   });
 
+  const updateProfileMutation = trpc.usersRouter.updateProfile.useMutation({
+    onSuccess: () => {
+      utils.usersRouter.getUserProfile.invalidate({ userId });
+    },
+  });
+
   const handleFollowToggle = () => {
     if (!profile) {
       return;
@@ -58,6 +65,10 @@ export default function ProfilePage() {
   const handlePostClick = (post: Post) => {
     setSelectedPost(post);
     setIsModalOpen(true);
+  };
+
+  const handleSaveProfile = (data: UpdateProfileInput) => {
+    updateProfileMutation.mutate(data);
   };
 
   if (isLoading) {
@@ -114,6 +125,13 @@ export default function ProfilePage() {
           onOpenChange={setIsModalOpen}
         />
       )}
+
+      <EditProfileModal
+        open={isEditProfileOpen}
+        onOpenChange={setIsEditProfileOpen}
+        profile={profile}
+        onSave={handleSaveProfile}
+      />
     </div>
   );
 }
