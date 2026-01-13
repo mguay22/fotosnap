@@ -5,6 +5,7 @@ import { PostModal } from "@/components/users/post-modal";
 import ProfileHeader from "@/components/users/profile-header";
 import { ProfileNavigation } from "@/components/users/profile-navigation";
 import { ProfileTabs } from "@/components/users/profile-tabs";
+import { authClient } from "@/lib/auth/client";
 import { trpc } from "@/lib/trpc/client";
 import { Post, UpdateProfileInput } from "@repo/trpc/schemas";
 import { useParams } from "next/navigation";
@@ -13,6 +14,7 @@ import { useState } from "react";
 export default function ProfilePage() {
   const params = useParams();
   const userId = params.userId as string;
+  const { data: session } = authClient.useSession();
   const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -96,6 +98,7 @@ export default function ProfilePage() {
 
       <div className="max-w-4xl mx-auto px-4 py-8">
         <ProfileHeader
+          isOwnProfile={session?.user.id === profile.id}
           profile={profile}
           onFollowToggle={handleFollowToggle}
           onEditProfile={() => setIsEditProfileOpen(true)}
