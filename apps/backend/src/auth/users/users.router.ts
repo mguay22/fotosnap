@@ -12,7 +12,6 @@ import {
   UserIdInput,
   userIdSchema,
   userProfileSchema,
-  userSchema,
 } from '@repo/trpc/schemas';
 import { AuthTrpcMiddleware } from '../auth-trpc.middleware';
 import { AppContext } from '../../app-context.interface';
@@ -34,17 +33,17 @@ export class UsersRouter {
     return this.usersService.unfollow(context.user.id, input.userId);
   }
 
-  @Query({ input: userIdSchema, output: z.array(userSchema) })
-  async getFollowers(@Input() input: UserIdInput) {
-    return this.usersService.getFollowers(input.userId);
+  @Query({ input: userIdSchema, output: z.array(userProfileSchema) })
+  async getFollowers(@Input() input: UserIdInput, @Ctx() context: AppContext) {
+    return this.usersService.getFollowers(input.userId, context.user.id);
   }
 
-  @Query({ input: userIdSchema, output: z.array(userSchema) })
-  async getFollowing(@Input() input: UserIdInput) {
-    return this.usersService.getFollowing(input.userId);
+  @Query({ input: userIdSchema, output: z.array(userProfileSchema) })
+  async getFollowing(@Input() input: UserIdInput, @Ctx() context: AppContext) {
+    return this.usersService.getFollowing(input.userId, context.user.id);
   }
 
-  @Query({ output: z.array(userSchema) })
+  @Query({ output: z.array(userProfileSchema) })
   async getSuggestedUsers(@Ctx() context: AppContext) {
     return this.usersService.getSuggestedUsers(context.user.id);
   }

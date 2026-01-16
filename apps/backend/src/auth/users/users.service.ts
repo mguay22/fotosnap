@@ -14,6 +14,37 @@ export class UsersService {
     private readonly database: NodePgDatabase<typeof schema>,
   ) {}
 
+  private profileSelect(currentUserId: string) {
+    return {
+      id: user.id,
+      name: user.name,
+      image: user.image,
+      bio: user.bio,
+      website: user.website,
+      followerCount: sql<number>`(
+        SELECT COUNT(*)::int
+        FROM "follow" f
+        WHERE f.following_id = "user"."id"
+      )`,
+      followingCount: sql<number>`(
+        SELECT COUNT(*)::int
+        FROM "follow" f
+        WHERE f.follower_id = "user"."id"
+      )`,
+      postCount: sql<number>`(
+        SELECT COUNT(*)::int
+        FROM "post" p
+        WHERE p.user_id = "user"."id"
+      )`,
+      isFollowing: sql<boolean>`EXISTS(
+        SELECT 1
+        FROM "follow" f
+        WHERE f.follower_id = ${currentUserId}
+          AND f.following_id = "user"."id"
+      )`,
+    };
+  }
+
   async findById(userId: string) {
     const foundUser = await this.database.query.user.findFirst({
       where: eq(user.id, userId),
@@ -70,32 +101,20 @@ export class UsersService {
       );
   }
 
-  async getFollowers(userId: string) {
-    return this.database.query.follow.findMany({
-      where: eq(follow.followingId, userId),
-      with: {
-        follower: {
-          columns: {
-            id: true,
-            name: true,
-          },
-        },
-      },
-    });
+  async getFollowers(userId: string, currentUserId: string) {
+    return this.database
+      .select(this.profileSelect(currentUserId))
+      .from(follow)
+      .innerJoin(user, eq(follow.followerId, user.id))
+      .where(eq(follow.followingId, userId));
   }
 
-  async getFollowing(userId: string) {
-    return this.database.query.follow.findMany({
-      where: eq(follow.followerId, userId),
-      with: {
-        following: {
-          columns: {
-            id: true,
-            name: true,
-          },
-        },
-      },
-    });
+  async getFollowing(userId: string, currentUserId: string) {
+    return this.database
+      .select(this.profileSelect(currentUserId))
+      .from(follow)
+      .innerJoin(user, eq(follow.followingId, user.id))
+      .where(eq(follow.followerId, userId));
   }
 
   async getSuggestedUsers(userId: string) {
@@ -104,19 +123,18 @@ export class UsersService {
     });
     const followingIdsList = followingIds.map((f) => f.followingId);
 
-    return this.database.query.user.findMany({
-      where: and(
-        ne(user.id, userId),
-        followingIdsList.length > 0
-          ? notInArray(user.id, followingIdsList)
-          : undefined,
-      ),
-      columns: {
-        id: true,
-        name: true,
-      },
-      limit: 5,
-    });
+    return this.database
+      .select(this.profileSelect(userId))
+      .from(user)
+      .where(
+        and(
+          ne(user.id, userId),
+          followingIdsList.length > 0
+            ? notInArray(user.id, followingIdsList)
+            : undefined,
+        ),
+      )
+      .limit(5);
   }
 
   async getUserProfile(
@@ -124,34 +142,7 @@ export class UsersService {
     currentUserId: string,
   ): Promise<UserProfile> {
     const result = await this.database
-      .select({
-        id: user.id,
-        name: user.name,
-        image: user.image,
-        bio: user.bio,
-        website: user.website,
-        followerCount: sql<number>`(
-        SELECT COUNT(*)::int
-        FROM ${follow} f
-        WHERE f.${follow.followingId} = ${user}.${user.id}
-      )`,
-        followingCount: sql<number>`(
-        SELECT COUNT(*)::int
-        FROM ${follow} f
-        WHERE f.${follow.followerId} = ${user}.${user.id}
-      )`,
-        postCount: sql<number>`(
-        SELECT COUNT(*)::int
-        FROM ${post} p
-        WHERE p.${post.userId} = ${user}.${user.id}
-      )`,
-        isFollowing: sql<boolean>`EXISTS(
-        SELECT 1
-        FROM ${follow} f
-        WHERE f.${follow.followerId} = ${currentUserId}
-          AND f.${follow.followingId} = ${user}.${user.id}
-      )`,
-      })
+      .select(this.profileSelect(currentUserId))
       .from(user)
       .where(eq(user.id, userId));
 
