@@ -38,6 +38,24 @@ export default function Home() {
     },
   });
 
+  const savePost = trpc.postsRouter.savePost.useMutation({
+    onMutate: ({ postId }) => {
+      utils.postsRouter.findAll.setData({}, (old) => {
+        if (!old) return old;
+
+        return old.map((post) => {
+          if (post.id === postId) {
+            return {
+              ...post,
+              isSaved: !post.isSaved,
+            };
+          }
+          return post;
+        });
+      });
+    },
+  });
+
   const createComment = trpc.commentsRouter.create.useMutation({
     onSuccess: (_, variables) => {
       utils.commentsRouter.findByPostId.invalidate({
@@ -119,6 +137,7 @@ export default function Home() {
               onStoryUpload={handleStoryUpload}
             />
             <Feed
+              onSavePost={(postId) => savePost.mutate({ postId })}
               onAddComment={(postId, text) => {
                 createComment.mutate({ postId, text });
               }}

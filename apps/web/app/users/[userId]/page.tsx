@@ -30,11 +30,13 @@ export default function ProfilePage() {
   const { data: profile, isLoading } = trpc.usersRouter.getUserProfile.useQuery(
     {
       userId,
-    }
+    },
   );
   const { data: posts = [] } = trpc.postsRouter.findAll.useQuery({
     userId,
   });
+
+  const { data: savedPosts = [] } = trpc.postsRouter.getSavedPosts.useQuery();
 
   const unfollowMutation = trpc.usersRouter.unfollow.useMutation({
     onSuccess: () => {
@@ -115,8 +117,9 @@ export default function ProfilePage() {
         />
 
         <ProfileTabs
+          isOwnProfile={session?.user.id === profile.id}
           userPosts={posts}
-          savedPosts={[]}
+          savedPosts={savedPosts}
           name={profile.name}
           onPostClick={handlePostClick}
         />
