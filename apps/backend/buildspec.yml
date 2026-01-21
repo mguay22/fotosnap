@@ -1,0 +1,31 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+    commands:
+      - echo Installing dependencies with pnpm...
+      - npm install -g pnpm@10.14.0
+      - pnpm install --frozen-lockfile
+
+  build:
+    commands:
+      - echo Running Turborepo tasks...
+      - pnpm turbo run build --filter=backend
+
+  post_build:
+    commands:
+      - echo Preparing files for Elastic Beanstalk deployment...
+      - pnpm --filter=backend deploy --prod out
+      - mkdir -p deploy
+      - cp -r apps/backend/dist deploy/
+      - cp -r out/node_modules deploy/node_modules/
+      - cp -r out/drizzle deploy/
+      - cp out/Procfile deploy/
+      - cp out/package.json deploy/
+
+artifacts:
+  base-directory: deploy
+  files:
+    - '**/*'
