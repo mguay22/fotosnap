@@ -7,6 +7,8 @@ import * as authSchema from '../auth/schema';
 import * as postsSchema from '../posts/schemas/schema';
 import * as commentsSchema from '../comments/schemas/schema';
 import * as storiesSchema from '../stories/schemas/schema';
+import * as path from 'path';
+import * as fs from 'fs';
 
 export const schema = {
   ...authSchema,
@@ -21,8 +23,20 @@ export const schema = {
     {
       provide: DATABASE_CONNECTION,
       useFactory: (configSerivce: ConfigService) => {
+        let ssl: any = false;
+        if (configSerivce.get('NODE_ENV') === 'production') {
+          const certPath = path.resolve(__dirname, '../../global-bundle.pem');
+          const certificate = fs.readFileSync(certPath).toString();
+          ssl = { ca: certificate };
+        }
+
         const pool = new Pool({
-          connectionString: configSerivce.getOrThrow('DATABASE_URL'),
+          host: configSerivce.getOrThrow('DATABASE_HOST'),
+          port: parseInt(configSerivce.getOrThrow('PORT')),
+          user: configSerivce.getOrThrow('DATABASE_USER'),
+          password: configSerivce.getOrThrow('DATABASE_PASSWORD'),
+          database: configSerivce.getOrThrow('DATABASE_NAME'),
+          ssl,
         });
         return drizzle(pool, {
           schema,
