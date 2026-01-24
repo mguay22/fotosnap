@@ -22,7 +22,10 @@ import { StoriesModule } from './stories/stories.module';
     ConfigModule.forRoot(),
     DatabaseModule,
     TRPCModule.forRoot({
-      autoSchemaFile: '../../packages/trpc/src/server',
+      autoSchemaFile:
+        process.env.NODE_ENV !== 'production'
+          ? '../../packages/trpc/src/server'
+          : undefined,
       context: AppContext,
       basePath: '/api/trpc',
     }),
