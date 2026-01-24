@@ -36,7 +36,9 @@ import { StoriesModule } from './stories/stories.module';
           emailAndPassword: {
             enabled: true,
           },
-          trustedOrigins: [configSerivce.getOrThrow('UI_URL')],
+          trustedOrigins: configSerivce.get('UI_URL')
+            ? [configSerivce.get('UI_URL')!]
+            : undefined,
         }),
       }),
       inject: [DATABASE_CONNECTION, ConfigService],
