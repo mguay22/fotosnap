@@ -32,7 +32,7 @@ export const schema = {
 
         const pool = new Pool({
           host: configSerivce.getOrThrow('DATABASE_HOST'),
-          port: parseInt(configSerivce.getOrThrow('PORT')),
+          port: parseInt(configSerivce.getOrThrow('DATABASE_PORT')),
           user: configSerivce.getOrThrow('DATABASE_USER'),
           password: configSerivce.getOrThrow('DATABASE_PASSWORD'),
           database: configSerivce.getOrThrow('DATABASE_NAME'),
