@@ -1,4 +1,4 @@
-import { AuthService } from '@mguay/nestjs-better-auth';
+import { AuthService } from '@thallesp/nestjs-better-auth';
 import { Injectable } from '@nestjs/common';
 import {
   MiddlewareOptions,

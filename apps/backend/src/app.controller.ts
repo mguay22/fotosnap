@@ -1,4 +1,4 @@
-import { Public } from '@mguay/nestjs-better-auth';
+import { Public } from '@thallesp/nestjs-better-auth';
 import { Controller, Get } from '@nestjs/common';
 
 @Controller()

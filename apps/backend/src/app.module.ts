@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
-import { AuthGuard, AuthModule } from '@mguay/nestjs-better-auth';
+import { AuthGuard, AuthModule } from '@thallesp/nestjs-better-auth';
 import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { DATABASE_CONNECTION } from './database/database-connection';
