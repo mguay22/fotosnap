@@ -4,12 +4,12 @@
   "private": true,
   "exports": {
     "./router": {
-      "types": "./dist/server/server.d.ts",
-      "default": "./dist/server/server.js"
+      "types": "./src/server/server.ts",
+      "default": "./src/server/server.ts"
     },
     "./schemas": {
-      "types": "./dist/schemas/index.d.ts",
-      "default": "./dist/schemas/index.js"
+      "types": "./src/schemas/index.ts",
+      "default": "./src/schemas/index.ts"
     }
   },
   "scripts": {
