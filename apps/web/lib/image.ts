@@ -1,5 +1,4 @@
 export const getImageUrl = (image: string | null) => {
-  // Test
   if (!image) {
     return "";
   }
