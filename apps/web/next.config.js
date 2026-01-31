@@ -17,6 +17,10 @@ const nextConfig = {
         hostname: "images.unsplash.com",
       },
       {
+        protocol: "https",
+        hostname: "fotosnap-demo2.s3.us-east-1.amazonaws.com",
+      },
+      {
         protocol: process.env.BACKEND_PROTOCOL,
         hostname: process.env.BACKEND_HOST,
       },
