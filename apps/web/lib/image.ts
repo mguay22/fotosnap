@@ -3,6 +3,10 @@ export const getImageUrl = (image: string | null) => {
     return "";
   }
 
+  if (image.startsWith("http://") || image.startsWith("https://")) {
+    return image;
+  }
+
   const storageUrl =
     process.env.NEXT_PUBLIC_STORAGE_URL ||
     `${process.env.NEXT_PUBLIC_API_URL}/uploads/images`;
