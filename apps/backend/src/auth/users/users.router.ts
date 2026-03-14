@@ -5,7 +5,7 @@ import {
   Query,
   Router,
   UseMiddlewares,
-} from '@mguay/nestjs-trpc';
+} from 'nestjs-trpc-v2';
 import {
   UpdateProfileInput,
   updateProfileSchema,

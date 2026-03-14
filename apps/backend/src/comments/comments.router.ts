@@ -5,7 +5,7 @@ import {
   Query,
   Router,
   UseMiddlewares,
-} from '@mguay/nestjs-trpc';
+} from 'nestjs-trpc-v2';
 import { AuthTrpcMiddleware } from 'src/auth/auth-trpc.middleware';
 import { CommentsService } from './comments.service';
 import {

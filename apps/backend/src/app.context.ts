@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ContextOptions, TRPCContext } from '@mguay/nestjs-trpc';
+import { ContextOptions, TRPCContext } from 'nestjs-trpc-v2';
 
 @Injectable()
 export class AppContext implements TRPCContext {
